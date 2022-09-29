@@ -1,0 +1,90 @@
+<mat-toolbar>
+  
+  <span>Manage Employee</span>
+  <span class="example-spacer"></span>
+  
+  <button (click)="addEmployee()" aria-label="Example icon-button with share icon" 
+  mat-raised-button color="primary">Add Employee</button>
+
+</mat-toolbar>
+
+
+
+<div class="mat-elevation-z8">
+  <mat-form-field appearance="standard">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
+  </mat-form-field>
+  <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" class="mat-elevation-z8">
+
+
+      <!-- Checkbox Column -->
+  <!-- <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox (change)="$event ? toggleAllRows() : null"
+                    [checked]="selection.hasValue() && isAllSelected()"
+                    [indeterminate]="selection.hasValue() && !isAllSelected()"
+                    [aria-label]="checkboxLabel()">
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)"
+                    [aria-label]="checkboxLabel(row)">
+      </mat-checkbox>
+    </td>
+  </ng-container> -->
+  
+    <!-- Position Column -->
+    <ng-container matColumnDef="empId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by empId"> empId </th>
+      <td mat-cell *matCellDef="let element"> {{element.empId}} </td>
+    </ng-container>
+  
+    <!-- Name Column -->
+    <ng-container matColumnDef="empName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by empName"> empName </th>
+      <td mat-cell *matCellDef="let element"> {{element.empName}} </td>
+    </ng-container>
+  
+    <!-- Weight Column -->
+    <ng-container matColumnDef="empEmail">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by empEmail"> empEmail </th>
+      <td mat-cell *matCellDef="let element"> {{element.empEmail}} </td>
+    </ng-container>
+  
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="empPhone">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by empPhone"> empPhone </th>
+      <td mat-cell *matCellDef="let element"> {{element.empPhone}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="empAddress">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by empAddress"> empAddress </th>
+      <td mat-cell *matCellDef="let element"> {{element.empAddress}} </td>
+    </ng-container>
+  
+  
+    <ng-container matColumnDef="operation">
+      <th mat-header-cell *matHeaderCellDef > Operation </th>
+      <td mat-cell *matCellDef="let element">
+        <button (click)="editEmployee(element.empId)" mat-button color="primary">Edit</button>
+        <button (click)="deleteEmployee(element.empId)" mat-button color="warn">Delete</button>
+    </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  
+  
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+  showFirstLastButtons 
+  aria-label="Select page of periodic elements">
+  </mat-paginator>
+  
+  
+  
+
+
+</div>

@@ -1,0 +1,53 @@
+<h1 mat-dialog-title>Add Employee</h1>
+<div mat-dialog-content>
+  
+    <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="example-form">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="Name" placeholder="Name" [errorStateMatcher]="matcher">
+          <mat-error *ngIf="employeeForm.controls['Name'].hasError('required')">
+            Name Is Required
+          </mat-error>
+        </mat-form-field>
+      
+    <br>
+
+    <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="Email" placeholder="Email" [errorStateMatcher]="matcher">
+        <mat-error *ngIf="employeeForm.controls['Email'].hasError('email') &&!employeeForm.controls['Email'].hasError('required')">
+          Please Enter Valid Email
+        </mat-error>
+        <mat-error *ngIf="employeeForm.controls['Email'].hasError('required')">
+            Email is <strong>required</strong>
+          </mat-error>
+      </mat-form-field>
+    
+  <br>
+
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Phone</mat-label>
+    <input matInput formControlName="Phone" [pattern]="phonePattern"  placeholder="Phone" [errorStateMatcher]="matcher">
+    <mat-error *ngIf="employeeForm.controls['Phone'].hasError('required')">
+      Phone Is Required
+    </mat-error>
+  </mat-form-field>
+
+<br>
+
+
+<mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Address</mat-label>
+    <textarea matInput formControlName="Address" placeholder="Address" [errorStateMatcher]="matcher"></textarea>
+    <mat-error *ngIf="employeeForm.controls['Address'].hasError('required')">
+        Address Is Required
+    </mat-error>
+  </mat-form-field>
+<br>
+
+      </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button (click)="onSubmit()" type="submit" [disabled]="employeeForm.invalid" >Ok</button>
+</div>

@@ -1,0 +1,71 @@
+<h1 mat-dialog-title>Add Employee</h1>
+
+
+<div mat-dialog-content>
+  
+    <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="example-form">
+      <div class="input-group">
+        <input class="form-control" type="text"  
+         name = "Name" formControlName="Name"
+        
+         placeholder="Name" aria-label="default input example">
+    
+    </div>
+    <span class="text text-danger" *ngIf="employeeForm.controls['Name'].invalid ">
+         Name is required
+      
+      </span> 
+      
+    <br>
+
+    <div class="input-group">
+      <input class="form-control" type="text"  
+       name = "Email" formControlName="Email"
+      
+       placeholder="Email" aria-label="default input example">
+  
+  </div>
+  <span class="text text-danger" *ngIf="employeeForm.controls['Email'].invalid ">
+      Invalid Email 
+    
+    </span> 
+    
+  <br>
+
+
+
+    <div class="input-group">
+        <input class="form-control" type="text" [pattern]="phonePattern" id="Phone" 
+         name = "Phone" formControlName="Phone"
+        
+         placeholder="Phone" aria-label="default input example">
+
+    </div>
+    <span class="text text-danger" *ngIf="employeeForm.controls['Phone'].invalid ">
+        Invalid Phone 
+      
+      </span> 
+
+<br>
+
+
+  <div class="input-group">
+    <input class="form-control" type="text"  
+     name = "Address" formControlName="Address"
+    
+     placeholder="Address" aria-label="default input example">
+
+</div>
+<span class="text text-danger" *ngIf="employeeForm.controls['Address'].invalid ">
+    Invalid Address 
+  
+  </span> 
+
+<br>
+
+      </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [disabled]="employeeForm.invalid" (click)="onSubmit()" type="submit" >Edit</button>
+</div>

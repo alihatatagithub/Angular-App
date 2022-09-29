@@ -1,0 +1,23 @@
+table {
+    width: 100%;
+  }
+  
+  th.mat-sort-header-sorted {
+    color: black;
+  }
+
+
+  .example-spacer {
+    flex: 1 1 auto;
+  }
+
+  mat-toolbar{
+    background-color: #028bf3;
+    color: white;
+    font-weight: bold;
+  }
+
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
