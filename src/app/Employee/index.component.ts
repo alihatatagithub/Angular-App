@@ -10,6 +10,7 @@ import { AddComponent } from './add.component';
 import { EditComponent } from './edit.component';
 import { DeleteComponent } from './delete.component';
 import {SelectionModel} from '@angular/cdk/collections';
+import { DeleteManyEmployeeComponent } from '../delete-many-employee/delete-many-employee.component';
 
 @Component({
   selector: 'app-index',
@@ -22,11 +23,15 @@ import {SelectionModel} from '@angular/cdk/collections';
 export class IndexComponent implements OnInit,AfterViewInit  {
 
 
-  displayedColumns: string[] = [ 'empId' , 'empName', 'empEmail', 'empPhone' ,'empAddress','operation'];
-  @ViewChild(MatPaginator) paginator: MatPaginator | undefined;
-  @ViewChild(MatSort) sort: MatSort | undefined;
-  dataSource:any;
+  displayedColumns: string[] = [  'empId','empName', 'empEmail', 'empPhone' ,'empAddress','operation'];
+  @ViewChild(MatPaginator) paginator?: MatPaginator ;
+  @ViewChild(MatSort) sort?: MatSort ;
+
+
+  dataSource: any;
   selection = new SelectionModel<TblEmployee>(true, []);
+  numberOfRowsSelected:number[]=[];
+  isSelectAll:boolean=false;
 
   constructor(private service:EmployeeService
     ,private _liveAnnouncer: LiveAnnouncer,
@@ -35,12 +40,13 @@ export class IndexComponent implements OnInit,AfterViewInit  {
     this.service.getAll().subscribe((ELEMENT_DATA:TblEmployee[])=>{
       this.dataSource = new MatTableDataSource<TblEmployee>(ELEMENT_DATA);
       this.selection = new SelectionModel<TblEmployee>(true, []);
-
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      console.log(this.dataSource);
-
+        },error => {
+          console.log(error);
+        },() => {
+          console.log('Completed')
         })
+
+        this.numberOfRowsSelected.length
   }
 
 
@@ -61,6 +67,18 @@ export class IndexComponent implements OnInit,AfterViewInit  {
     })
   
   }
+
+  deleteManyEmployee(){
+    this.dialog.open(DeleteManyEmployeeComponent,{
+      width:'300px',
+      data:{
+        numberOfRowsSelected:this.numberOfRowsSelected,
+        isSelectAll:this.isSelectAll
+
+      }
+
+    })
+  }
  
   deleteEmployee(id:number){
     this.dialog.open(DeleteComponent,{
@@ -73,9 +91,8 @@ export class IndexComponent implements OnInit,AfterViewInit  {
   }
 
     ngAfterViewInit() {
-
-
-
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     }
 
     applyFilter(event: Event) {
@@ -101,14 +118,19 @@ export class IndexComponent implements OnInit,AfterViewInit  {
     /** Selects all rows if they are not all selected; otherwise clear selection. */
     toggleAllRows() {
       if (this.isAllSelected()) {
+        this.isSelectAll = false;
+        this.numberOfRowsSelected.splice(0);
         this.selection.clear();
         return;
       }
+      this.isSelectAll = true;
   
       this.selection.select(...this.dataSource.data);
     }
   
     /** The label for the checkbox on the passed row */
+
+
     checkboxLabel(row?: TblEmployee): string {
       if (!row) {
         return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
@@ -116,6 +138,26 @@ export class IndexComponent implements OnInit,AfterViewInit  {
       return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.empId + 1}`;
     }
 
+    selectOne(event:any,row:any){
+      let isExist = false;
+      for (let index = 0; index < this.numberOfRowsSelected.length; index++) {
+        if (this.numberOfRowsSelected[index] == row.empId) {
+          isExist= true;
+          break;
+
+        }
+      }
+      if (!isExist) {
+        this.numberOfRowsSelected.push(row.empId);
+      }
+      else{
+       let i = this.numberOfRowsSelected.findIndex(a => a == row.empId);
+       this.numberOfRowsSelected.splice(i,1);
+
+      }
+      
+    return event ? this.selection.toggle(row) : null
+    }
 
   }
 

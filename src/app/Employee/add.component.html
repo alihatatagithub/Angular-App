@@ -47,7 +47,7 @@
 
       </form>
 </div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button (click)="onSubmit()" type="submit" [disabled]="employeeForm.invalid" >Ok</button>
+<div style="text-align: right" mat-dialog-actions>
+  <button class="btn btn-light" (click)="onNoClick()">Cancel</button>
+  <button class="btn btn-success" (click)="onSubmit()" type="submit" [disabled]="employeeForm.invalid" >Add</button>
 </div>

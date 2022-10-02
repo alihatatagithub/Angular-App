@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Add Employee</h1>
+<h1 mat-dialog-title>Edit Employee</h1>
 
 
 <div mat-dialog-content>
@@ -67,5 +67,5 @@
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button [disabled]="employeeForm.invalid" (click)="onSubmit()" type="submit" >Edit</button>
+  <button class="btn btn-info" [disabled]="employeeForm.invalid" (click)="onSubmit()" type="submit" >Save</button>
 </div>

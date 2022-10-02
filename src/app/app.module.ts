@@ -17,6 +17,9 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {  FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { DeleteComponent } from './Employee/delete.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { DeleteManyEmployeeComponent } from './delete-many-employee/delete-many-employee.component';
+
 const routes: Routes = [
   {path:'employee',component:IndexComponent},
   {path:'add',component:AddComponent},
@@ -32,7 +35,8 @@ const routes: Routes = [
     IndexComponent,
     EditComponent,
     AddComponent,
-    DeleteComponent
+    DeleteComponent,
+    DeleteManyEmployeeComponent
   ],
   imports: [
     BrowserModule,
@@ -49,6 +53,7 @@ const routes: Routes = [
     MatInputModule,
     ReactiveFormsModule,
     FormsModule,
+    MatCheckboxModule
     
 
 

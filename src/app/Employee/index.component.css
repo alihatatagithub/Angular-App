@@ -1,5 +1,6 @@
 table {
     width: 100%;
+    overflow-x: auto;
   }
   
   th.mat-sort-header-sorted {
@@ -21,3 +22,36 @@ table {
     font-size: 14px;
     width: 100%;
   }
+
+  #deleteBtn{
+    margin-right: 10px;
+  }
+
+  @media only screen 
+and (max-device-width: 600px){
+
+  
+  table{
+    display: block;
+  }
+
+  #addEmployee{
+    position: absolute;
+    top: 70px;
+    left: 134px;
+}
+
+#deleteBtn{
+  position: absolute;
+    top: 70px;
+}
+  
+.mat-form-field{
+  margin-top: 70px;
+}
+ .mynavbar{
+  width: 100%;
+    overflow-x: hidden;
+ }
+}
+

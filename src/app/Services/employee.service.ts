@@ -25,6 +25,14 @@ export class EmployeeService {
     return this.http.delete(this.baseUrl+'api/employees/'+id);
   }
 
+  deleteManyEmployees(numberOfRowsSelected:number[]){
+    return this.http.post(this.baseUrl+'api/employees/DeleteMany',numberOfRowsSelected);
+  }
+
+  deleteAllEmployee(){
+    return this.http.delete(this.baseUrl+'api/employees/DeleteAll');
+  }
+
   editEmployee(id:number,tblEmployee:TblEmployee){
     return this.http.put(this.baseUrl+'api/employees/'+id,tblEmployee);
   }

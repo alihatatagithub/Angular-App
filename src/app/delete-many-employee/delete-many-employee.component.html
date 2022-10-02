@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Delete Many Employees</h1>
+<div mat-dialog-content>
+  <p>Are you sure you want to delete all selected employee?</p>
+
+</div>
+<div mat-dialog-actions>
+  <button class="btn btn-light" (click)="onNoClick()">Cancel</button>
+  <button (click)="deleteManyEmployees()" class="btn btn-danger">Delete</button>
+
+</div>
