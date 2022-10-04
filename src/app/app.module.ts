@@ -19,6 +19,8 @@ import {  FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { DeleteComponent } from './Employee/delete.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { DeleteManyEmployeeComponent } from './delete-many-employee/delete-many-employee.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
 
 const routes: Routes = [
   {path:'employee',component:IndexComponent},
@@ -53,7 +55,8 @@ const routes: Routes = [
     MatInputModule,
     ReactiveFormsModule,
     FormsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatProgressSpinnerModule
     
 
 

@@ -37,10 +37,12 @@ export class DeleteComponent implements OnInit {
   deleteEmployee(){
     this.employeeService.deleteEmployee(this.employeeId).subscribe(a => {
       console.log('Success');
-      window.location.reload();
+      // window.location.reload();
 
     },error => {
       console.log(error)
+    }, () => {
+      this.dialogRef.close();
     })
 
 

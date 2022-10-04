@@ -18,8 +18,8 @@ export class EmployeeService {
 
   }
 
-  addEmployee(tblEmployee:any){
-    return this.http.post(this.baseUrl+'api/employees',tblEmployee);
+  addEmployee(tblEmployee:TblEmployee){
+    return this.http.post<TblEmployee[]>(this.baseUrl+'api/employees',tblEmployee);
   }
   deleteEmployee(id:number){
     return this.http.delete(this.baseUrl+'api/employees/'+id);

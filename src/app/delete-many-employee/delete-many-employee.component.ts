@@ -27,19 +27,24 @@ export class DeleteManyEmployeeComponent implements OnInit {
   deleteManyEmployees(){
     if (this.isSelectAll) {
       this.employeeService.deleteAllEmployee().subscribe(a => {
-        window.location.reload();
+        console.log(a);
       },error => {
         console.log(error);
+      }, () => {
+        this.dialogRef.close();
       })
     }
 
     else{
       this.employeeService.deleteManyEmployees(this.numberOfRowsSelected).subscribe(a => {
-        window.location.reload();
+       console.log(a);
   
       },error => {
         console.log(error)
-      })
+      },() => {
+        this.dialogRef.close();
+      }
+      )
     }
 
 

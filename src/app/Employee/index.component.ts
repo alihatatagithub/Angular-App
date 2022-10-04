@@ -23,37 +23,62 @@ import { DeleteManyEmployeeComponent } from '../delete-many-employee/delete-many
 export class IndexComponent implements OnInit,AfterViewInit  {
 
 
+  showLoader:boolean = true;
   displayedColumns: string[] = [  'empId','empName', 'empEmail', 'empPhone' ,'empAddress','operation'];
+
+  isLoading = true;
   @ViewChild(MatPaginator) paginator?: MatPaginator ;
-  @ViewChild(MatSort) sort?: MatSort ;
+  @ViewChild('sort') sort = new MatSort();
 
 
-  dataSource: any;
+
+  datasource: any;
+  tableLength=0;
   selection = new SelectionModel<TblEmployee>(true, []);
   numberOfRowsSelected:number[]=[];
   isSelectAll:boolean=false;
 
   constructor(private service:EmployeeService
     ,private _liveAnnouncer: LiveAnnouncer,
-     private dialog: MatDialog) { }
+     private dialog: MatDialog) {    
+     }
   ngOnInit(): void {
-    this.service.getAll().subscribe((ELEMENT_DATA:TblEmployee[])=>{
-      this.dataSource = new MatTableDataSource<TblEmployee>(ELEMENT_DATA);
-      this.selection = new SelectionModel<TblEmployee>(true, []);
-        },error => {
-          console.log(error);
-        },() => {
-          console.log('Completed')
-        })
-
-        this.numberOfRowsSelected.length
+   
+    this.GetAll();
+    this.numberOfRowsSelected.length;
   }
 
+  GetAll(){
+    this.service.getAll().subscribe((res) => {
+      this.datasource = new MatTableDataSource(res);
+      this.tableLength = res.length;
+      if (res.length < 1) {
+        this.isLoading = false;
+      }
+      this.selection = new SelectionModel<TblEmployee>(true, []);
+      this.datasource.paginator = this.paginator;
+      this.datasource.sort = this.sort;
+      this.datasource.disableClear = true;
+      this.isLoading = false;
+     
+    },
+   error =>{
+    this.isLoading = false;
+      console.log(error)
+    }
+  
+  )
+ 
+  }
 
   addEmployee(){
     this.dialog.open(AddComponent,{
       width:'300px',
 
+    }).afterClosed().subscribe(a => {
+      this.GetAll();
+
+      
     })
   }
 
@@ -64,21 +89,34 @@ export class IndexComponent implements OnInit,AfterViewInit  {
         id:id
       }
 
+    }).afterClosed().subscribe(a => {
+      this.GetAll();
+      
     })
   
   }
 
   deleteManyEmployee(){
-    this.dialog.open(DeleteManyEmployeeComponent,{
-      width:'300px',
-      data:{
-        numberOfRowsSelected:this.numberOfRowsSelected,
-        isSelectAll:this.isSelectAll
+    if (this.numberOfRowsSelected.length > 0 || this.isSelectAll) {
+      this.dialog.open(DeleteManyEmployeeComponent,{
+        width:'300px',
+        data:{
+          numberOfRowsSelected:this.numberOfRowsSelected,
+          isSelectAll:this.isSelectAll
+  
+        }
+  
+      }).afterClosed().subscribe(a => {
+        this.GetAll();
+       
+      })
+    
+    }
 
-      }
-
-    })
-  }
+     
+  
+  
+    }
  
   deleteEmployee(id:number){
     this.dialog.open(DeleteComponent,{
@@ -87,32 +125,43 @@ export class IndexComponent implements OnInit,AfterViewInit  {
         id:id
       }
 
+    }).afterClosed().subscribe(a => {
+      this.GetAll();
+     
+     
     })
   }
 
+ 
     ngAfterViewInit() {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+      this.datasource.paginator = this.paginator;
+        
+    this.sort.disableClear = true;
+    this.datasource.sort = this.sort;
     }
 
     applyFilter(event: Event) {
       const filterValue = (event.target as HTMLInputElement).value;
-      this.dataSource.filter = filterValue.trim().toLowerCase();
+      this.datasource.filter = filterValue.trim().toLowerCase();
     }
 
     announceSortChange(sortState: Sort) {
       if (sortState.direction) {
         this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
-      } else {
+      }
+      
+       else {
         this._liveAnnouncer.announce('Sorting cleared');
       }
     }
 
 
     isAllSelected() {
-      const numSelected = this.selection.selected.length;
-      const numRows = this.dataSource.data.length;
+     
+        const numSelected = this.selection.selected.length;
+      const numRows = this.datasource.data.length;
       return numSelected === numRows;
+      
     }
   
     /** Selects all rows if they are not all selected; otherwise clear selection. */
@@ -125,7 +174,7 @@ export class IndexComponent implements OnInit,AfterViewInit  {
       }
       this.isSelectAll = true;
   
-      this.selection.select(...this.dataSource.data);
+      this.selection.select(...this.datasource.data);
     }
   
     /** The label for the checkbox on the passed row */
@@ -160,6 +209,7 @@ export class IndexComponent implements OnInit,AfterViewInit  {
     }
 
   }
+
 
   
 

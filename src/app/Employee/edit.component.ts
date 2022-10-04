@@ -77,15 +77,15 @@ onSubmit(){
   this.tblEmployee.empId = this.employeeId;
   // console.log(this.tblEmployee)
   this.employeeService.editEmployee(this.employeeId,this.tblEmployee).subscribe(a => {
-    console.log(a);
-
-    window.location.reload();
+    
   
 
-  },error => console.log("ERROR"+error));
+  },error => console.log("ERROR"+error)
+  ,() => {
+    this.dialogRef.close();
+  }
+  );
 
-  this.router.navigateByUrl('/employee');
-  this.dialogRef.close();
 
 }
 

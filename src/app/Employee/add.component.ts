@@ -46,12 +46,15 @@ export class AddComponent implements OnInit {
     this.tblEmployee.empPhone = this.employeeForm.get('Phone').value.toString();
     // console.log(this.tblEmployee)
     this.employeeService.addEmployee(this.tblEmployee).subscribe(a => {
-      
+      console.log(a);
 
-    },error => console.log("ERROR"+error));
+    },error => console.log("ERROR"+error),
+    () => {
+        this.dialogRef.close();
 
-    window.location.reload();
-    this.dialogRef.close();
+    });
+
+   
 
   }
 
